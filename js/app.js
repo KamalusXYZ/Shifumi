@@ -9,6 +9,9 @@ let imagePapierIa = document.querySelector('.papieria')
 let imageCiseauIa = document.querySelector('.ciseauia')
 
 let boutonPlay = document.querySelector('.boutonstyle')
+let boutonPlayGris = document.querySelector('.boutonbox2')
+
+
 
 let imageChoisit = document.querySelector('.choixjoueur')
 let imageChoisitIa = document.querySelector('.choixia')
@@ -19,7 +22,7 @@ let egalite = document.querySelector('.egalite')
 
 let bandeau = document.querySelector('.bandeau')
 
-let choixFinal = ''
+
 let dragPierre = false
 let dragPapier = false
 let dragCiseau = false
@@ -27,12 +30,15 @@ let dragCiseau = false
 let scoreJ1 = 0
 let scoreIa = 0
 
+let divScoreJ1 = document.querySelector('.scorej1')
+let divScoreIa = document.querySelector('.scoreia')
+
 
 
 let reset = document.querySelector('#reset')
 
 
-/**   DEBUT DRAG AND DROP POUR L IMAGE PIERRE = met la var valeurPierre sur 2 si déposé au bon endroit */
+/**   DEBUT DRAG AND DROP*/
 /***********************drag */
 const dragPierreJ1 = (event) => {
 
@@ -40,21 +46,19 @@ const dragPierreJ1 = (event) => {
     // console.log(event.target.attributes[0].textContent)
 
     if (event.target.attributes[0].textContent === 'img/ciseau.svg') {
-        console.log('ciseau')
+        
         dragCiseau = true
         dragPierre = false
         dragPapier = false
 
-    }
-    else if (event.target.attributes[0].textContent === 'img/pierre.svg') {
-        console.log('pierre')
+    } else if (event.target.attributes[0].textContent === 'img/pierre.svg') {
+        
         dragPierre = true
         dragCiseau = false
         dragPapier = false
 
-    }
-    else if (event.target.attributes[0].textContent === 'img/papier.svg') {
-        console.log('papier')
+    } else if (event.target.attributes[0].textContent === 'img/papier.svg') {
+        
         dragCiseau = false
         dragPierre = false
         dragPapier = true
@@ -97,17 +101,23 @@ const resetShifumi = () => {
     choixIa = 3
     imageChoisit.innerHTML = ``
     imageChoisitIa.innerHTML = ``
-
+    gagne.style.display = 'none'
+    perdu.style.display = 'none'
+    egalite.style.display = 'none'
 
 }
 reset.onclick = resetShifumi
 
 /**   FIN DRAG AND DROP ET DU RESET */
 
+/***********************DEBUT DU PROGRAMME DE LANCEMENT */
 let choixIa = ''
-const lancement = () => {
 
-        choixIa = Math.floor(Math.random() * 3)
+const iaZero = () => {
+
+    imageChoisitIa.innerHTML = `<img src="img/interogation.svg">`
+    choixIa = Math.floor(Math.random() * 3)
+    setTimeout(() => {
         if (choixIa === 0) {
             imageChoisitIa.innerHTML = `<img src="img/pierre.svg">`
         }
@@ -117,51 +127,62 @@ const lancement = () => {
         if (choixIa === 2) {
             imageChoisitIa.innerHTML = `<img src="img/ciseau.svg">`
         }
+    }, 500)
+}
 
-        /**EGALITE */
+const affichageResultat = () => {
+    /*******VICTOIRE */
 
-        if (dragCiseau === true && choixIa === 2)
-        {                    
-            egalite.style.display = 'block'
-        }
-        else if (dragPierre === true && choixIa === 0)
-        {                    
-            egalite.style.display = 'block'
-        }
-        else if (dragPapier === true && choixIa === 1)
-        {                    
-            egalite.style.display = 'block'
-        }
+    if (dragCiseau === true && choixIa === 1) {
+        gagne.style.display = 'block';
+        scoreJ1 += 1
+        divScoreJ1.innerHTML = `${scoreJ1}`
 
-        /*****VICTOIRE */
+    } else if (dragPierre === true && choixIa === 2) {
+        gagne.style.display = 'block';
+        scoreJ1 += 1
+        divScoreJ1.innerHTML = `${scoreJ1}`
+    } else if (dragPapier === true && choixIa === 0) {
+        gagne.style.display = 'block';
+        scoreJ1 += 1
+        divScoreJ1.innerHTML = `${scoreJ1}`
+    }
+    /*****EGALITE */
+
+    if (dragCiseau === true && choixIa === 2) {
+        egalite.style.display = 'block'
+
+    } else if (dragPierre === true && choixIa === 0) {
+        egalite.style.display = 'block'
+    } else if (dragPapier === true && choixIa === 1) {
+        egalite.style.display = 'block'
+    }
+    /******DEFAITE */
+    if (dragCiseau === true && choixIa === 0) {
+        perdu.style.display = 'block';
+        scoreIa += 1
         
+        divScoreIa.innerHTML = `${scoreIa}`
+    } else if (dragPierre === true && choixIa === 1) {
+        perdu.style.display = 'block';
+        scoreIa += 1
+        
+        divScoreIa.innerHTML = `${scoreIa}`
+    } else if (dragPapier === true && choixIa === 2) {
+        perdu.style.display = 'block';
+        scoreIa += 1
+        
+        divScoreIa.innerHTML = `${scoreIa}`
+    }
 
+}
 
-
+const lancement = () => {
     
-        setTimeout(resetShifumi, 2000)
+    iaZero()
+    setTimeout(affichageResultat, 500)
+    setTimeout(resetShifumi, 1200)
 
-
-
-    console.log(choixIa)
 }
 
 boutonPlay.onclick = lancement
-
-
-
-
-
-
-
-
-
-const testConsole = () => {
-    console.log("pierre" + dragPierre)
-    console.log("papier" + dragPapier)
-    console.log("ciseau" + dragCiseau)
-
-
-}
-
-body.onclick = testConsole
