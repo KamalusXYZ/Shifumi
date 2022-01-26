@@ -33,6 +33,9 @@ let scoreIa = 0
 let divScoreJ1 = document.querySelector('.scorej1')
 let divScoreIa = document.querySelector('.scoreia')
 
+let sonVictoire = new Audio('./media/good.mp3')
+let sonDefaite = new Audio('./media/wrong.mp3')
+
 
 
 let reset = document.querySelector('#reset')
@@ -46,19 +49,19 @@ const dragPierreJ1 = (event) => {
     // console.log(event.target.attributes[0].textContent)
 
     if (event.target.attributes[0].textContent === 'img/ciseau.svg') {
-        
+
         dragCiseau = true
         dragPierre = false
         dragPapier = false
 
     } else if (event.target.attributes[0].textContent === 'img/pierre.svg') {
-        
+
         dragPierre = true
         dragCiseau = false
         dragPapier = false
 
     } else if (event.target.attributes[0].textContent === 'img/papier.svg') {
-        
+
         dragCiseau = false
         dragPierre = false
         dragPapier = true
@@ -137,15 +140,19 @@ const affichageResultat = () => {
         gagne.style.display = 'block';
         scoreJ1 += 1
         divScoreJ1.innerHTML = `${scoreJ1}`
+        sonVictoire.play()
 
     } else if (dragPierre === true && choixIa === 2) {
         gagne.style.display = 'block';
         scoreJ1 += 1
         divScoreJ1.innerHTML = `${scoreJ1}`
+        sonVictoire.play()
+
     } else if (dragPapier === true && choixIa === 0) {
         gagne.style.display = 'block';
         scoreJ1 += 1
         divScoreJ1.innerHTML = `${scoreJ1}`
+        sonVictoire.play()
     }
     /*****EGALITE */
 
@@ -161,24 +168,24 @@ const affichageResultat = () => {
     if (dragCiseau === true && choixIa === 0) {
         perdu.style.display = 'block';
         scoreIa += 1
-        
+        sonDefaite.play()
         divScoreIa.innerHTML = `${scoreIa}`
     } else if (dragPierre === true && choixIa === 1) {
         perdu.style.display = 'block';
         scoreIa += 1
-        
+        sonDefaite.play()
         divScoreIa.innerHTML = `${scoreIa}`
     } else if (dragPapier === true && choixIa === 2) {
         perdu.style.display = 'block';
         scoreIa += 1
-        
+        sonDefaite.play()
         divScoreIa.innerHTML = `${scoreIa}`
     }
 
 }
 
 const lancement = () => {
-    
+
     iaZero()
     setTimeout(affichageResultat, 500)
     setTimeout(resetShifumi, 1200)
